@@ -1,9 +1,18 @@
 package com.kxl.bo;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by Administrator on 2019/1/25.
  */
-public class UserBo {
+public class UserBo implements UserDetails {
 
     private String id;
 
@@ -16,6 +25,11 @@ public class UserBo {
     private Integer locked;
 
     private String account;
+
+    private Date version;
+
+    private List<RoleBo> roles;
+
 
     public void setId(String id) {
         this.id = id;
@@ -50,8 +64,42 @@ public class UserBo {
         return userName;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (RoleBo role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
+        return authorities;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public String getSalt() {
