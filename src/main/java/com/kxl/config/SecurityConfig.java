@@ -78,6 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .and()
+                .cors() //支持跨域
+
+                .and()
                 .logout()
 //                .logoutSuccessHandler(logoutSuccessHandler)
                 .permitAll();
