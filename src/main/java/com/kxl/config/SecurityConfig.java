@@ -29,9 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    SelfAuthenticationProvider selfAuthenticationProvider; // 自定义安全认证
-
-    @Autowired
     AjaxAuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
@@ -42,8 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 加入自定义的安全认证
-        auth.authenticationProvider(selfAuthenticationProvider);
+        // 调用认证
+        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     // 装载BCrypt密码编码器
@@ -78,8 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .and()
-                .cors() //支持跨域
-
+                .cors()
                 .and()
                 .logout()
 //                .logoutSuccessHandler(logoutSuccessHandler)
