@@ -1,7 +1,7 @@
 package com.kxl.mapper;
 
 
-import com.kxl.Dto.LoginDto;
+import com.kxl.Dto.UserDto;
 import com.kxl.bo.UserBo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -20,5 +20,5 @@ public interface UserMapper {
      * @return
      */
     @Select("SELECT id, user_name AS userName, account, password, salt, locked FROM sys_user where user_name=#{uname} ")
-    List<UserBo> selectByUname(LoginDto loginDto);
+    List<UserBo> selectByUname(UserDto loginDto);
 }

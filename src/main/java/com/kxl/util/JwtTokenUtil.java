@@ -1,12 +1,11 @@
 package com.kxl.util;
 
+import com.kxl.bo.UserBo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -70,6 +69,7 @@ public class JwtTokenUtil implements Serializable {
      * @return
      */
     public Boolean validateToken(String authToken) {
+
         Object o = redisUtil.get(authToken);
         if(null != o){
             return true;
@@ -161,12 +161,11 @@ public class JwtTokenUtil implements Serializable {
      * 验证令牌
      *
      * @param token       令牌
-     * @param userDetails 用户
+     * @param userBo 用户
      * @return 是否有效
      */
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        User user = (User) userDetails;
+    public Boolean validateToken(String token, UserBo userBo) {
         String username = getUsernameFromToken(token);
-        return (username.equals(user.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userBo.getUserName()) && !isTokenExpired(token));
     }
 }

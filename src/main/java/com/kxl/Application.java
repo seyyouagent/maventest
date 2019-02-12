@@ -28,7 +28,6 @@ public class Application {
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
-//        corsConfiguration.addExposedHeader(HttpHeaderConStant.X_TOTAL_COUNT);
         return corsConfiguration;
     }
 
@@ -40,7 +39,7 @@ public class Application {
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", buildConfig()); // 4
+        source.registerCorsConfiguration("/*", buildConfig()); // 4
         log.info("corsFilter");
         return new CorsFilter(source);
     }

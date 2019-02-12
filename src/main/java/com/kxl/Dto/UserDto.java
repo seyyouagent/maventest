@@ -3,12 +3,12 @@ package com.kxl.Dto;
 /**
  * Created by Administrator on 2019/1/25.
  */
-public class LoginDto {
+public class UserDto {
     private String uname;
 
     private String password;
 
-    private String verificationCode;
+    private String token;
 
     public void setUname(String uname) {
         this.uname = uname;
@@ -27,11 +27,11 @@ public class LoginDto {
         return password;
     }
 
-    public String getVerificationCode() {
-        return verificationCode;
+    public String getToken() {
+        return token;
     }
 
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
+    public void setToken(String token) {
+        this.token = token;
     }
 }
