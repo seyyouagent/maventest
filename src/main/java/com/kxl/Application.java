@@ -14,7 +14,7 @@ import org.springframework.web.filter.CorsFilter;
  * Created by Administrator on 2019/1/25.
  */
 @SpringBootApplication
-@ComponentScan
+@ComponentScan("com.kxl")
 public class Application {
 
     Logger log = LoggerFactory.getLogger(Application.class);

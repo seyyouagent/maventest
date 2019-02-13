@@ -31,7 +31,7 @@ public class RedisUtil {
      */
     private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
-    Logger log = LoggerFactory.getLogger(RedisUtil.class);
+    Logger logger = LoggerFactory.getLogger(RedisUtil.class);
     /**
      * Spring Redis Template
      */
@@ -54,7 +54,7 @@ public class RedisUtil {
         redisTemplate.execute((RedisCallback<Long>) connection -> {
             connection.set(key, value);
             connection.expire(key, time);
-            log.info("[redisTemplate redis]放入 缓存  url:{} ========缓存时间为{}秒", key, time);
+            logger.info("[redisTemplate redis]放入 缓存  url:{} ========缓存时间为{}秒", key, time);
             return 1L;
         });
     }
@@ -73,7 +73,7 @@ public class RedisUtil {
             byte[] values = serializer.serialize(value);
             connection.set(keys, values);
             connection.expire(keys, time);
-            log.info("[redisTemplate redis]放入 缓存  url:{} ========缓存时间为{}秒", key, time);
+            logger.info("[redisTemplate redis]放入 缓存  url:{} ========缓存时间为{}秒", key, time);
             return 1L;
         });
     }
@@ -93,7 +93,7 @@ public class RedisUtil {
                 byte[] bValues = serializer.serialize(values[i]);
                 connection.set(bKeys, bValues);
                 connection.expire(bKeys, time);
-                log.info("[redisTemplate redis]放入 缓存  url:{} ========缓存时间为:{}秒", keys[i], time);
+                logger.info("[redisTemplate redis]放入 缓存  url:{} ========缓存时间为:{}秒", keys[i], time);
             }
             return 1L;
         });
@@ -113,7 +113,7 @@ public class RedisUtil {
                 byte[] bKeys = serializer.serialize(keys[i]);
                 byte[] bValues = serializer.serialize(values[i]);
                 connection.set(bKeys, bValues);
-                log.info("[redisTemplate redis]放入 缓存  url:{}", keys[i]);
+                logger.info("[redisTemplate redis]放入 缓存  url:{}", keys[i]);
             }
             return 1L;
         });
@@ -132,7 +132,7 @@ public class RedisUtil {
             byte[] keys = serializer.serialize(key);
             byte[] values = serializer.serialize(value);
             connection.set(keys, values);
-            log.info("[redisTemplate redis]放入 缓存  url:{}", key);
+            logger.info("[redisTemplate redis]放入 缓存  url:{}", key);
             return 1L;
         });
     }
@@ -178,7 +178,7 @@ public class RedisUtil {
      */
     public byte[] get(final byte[] key) {
         byte[] result = redisTemplate.execute((RedisCallback<byte[]>) connection -> connection.get(key));
-        log.info("[redisTemplate redis]取出 缓存  url:{} ", key);
+        logger.info("[redisTemplate redis]取出 缓存  url:{} ", key);
         return result;
     }
 
@@ -195,7 +195,7 @@ public class RedisUtil {
             byte[] values = connection.get(keys);
             return serializer.deserialize(values);
         });
-        log.info("[redisTemplate redis]取出 缓存  url:{} ", key);
+        logger.info("[redisTemplate redis]取出 缓存  url:{} ", key);
         return resultStr;
     }
 
@@ -207,7 +207,7 @@ public class RedisUtil {
      * @return the keys values
      */
     public Map<String, String> getKeysValues(final String keyPatten) {
-        log.info("[redisTemplate redis]  getValues()  patten={} ", keyPatten);
+        logger.info("[redisTemplate redis]  getValues()  patten={} ", keyPatten);
         return redisTemplate.execute((RedisCallback<Map<String, String>>) connection -> {
             RedisSerializer<String> serializer = getRedisSerializer();
             Map<String, String> maps = new HashMap<>();
@@ -239,7 +239,7 @@ public class RedisUtil {
      * @param hashValue the hash value
      */
     public void putHashValue(String key, String hashKey, String hashValue) {
-        log.info("[redisTemplate redis]  putHashValue()  key={},hashKey={},hashValue={} ", key, hashKey, hashValue);
+        logger.info("[redisTemplate redis]  putHashValue()  key={},hashKey={},hashValue={} ", key, hashKey, hashValue);
         opsForHash().put(key, hashKey, hashValue);
     }
 
@@ -251,7 +251,7 @@ public class RedisUtil {
      * @return the hash values
      */
     public Object getHashValues(String key, String hashKey) {
-        log.info("[redisTemplate redis]  getHashValues()  key={},hashKey={}", key, hashKey);
+        logger.info("[redisTemplate redis]  getHashValues()  key={},hashKey={}", key, hashKey);
         return opsForHash().get(key, hashKey);
     }
 
@@ -262,7 +262,7 @@ public class RedisUtil {
      * @param hashKeys the hash keys
      */
     public void delHashValues(String key, Object... hashKeys) {
-        log.info("[redisTemplate redis]  delHashValues()  key={}", key);
+        logger.info("[redisTemplate redis]  delHashValues()  key={}", key);
         opsForHash().delete(key, hashKeys);
     }
 
@@ -273,7 +273,7 @@ public class RedisUtil {
      * @return the hash value
      */
     public Map<String, String> getHashValue(String key) {
-        log.info("[redisTemplate redis]  getHashValue()  key={}", key);
+        logger.info("[redisTemplate redis]  getHashValue()  key={}", key);
         return opsForHash().entries(key);
     }
 

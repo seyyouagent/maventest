@@ -8,14 +8,12 @@ import com.kxl.util.AjaxResponseBody;
 import com.kxl.util.JwtTokenUtil;
 import com.kxl.util.MD5;
 import com.sun.tools.internal.ws.wsdl.document.http.HTTPConstants;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.apache.http.HttpStatus;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -52,7 +50,8 @@ public class UsersController {
         return new AjaxResponseBody(HttpStatus.SC_BAD_REQUEST,"用户名或密码错误！",null,null);
     }
 
-    @RequestMapping("/selectUserByToken")
+    @RequestMapping(value = "/selectUserByToken",consumes = "application/json;charset=UTF-8")
+    @ResponseBody
     public AjaxResponseBody selectUserByToken(@RequestBody UserDto userDto){
 
         AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
