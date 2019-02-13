@@ -1,14 +1,11 @@
 package com.kxl.service;
 
 import com.kxl.Dto.UserDto;
-import com.kxl.bo.RoleBo;
 import com.kxl.bo.UserBo;
-import com.kxl.mapper.RoleMapper;
 import com.kxl.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
