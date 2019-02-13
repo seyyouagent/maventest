@@ -56,12 +56,10 @@ public class UsersController {
 
         AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
         if(userDto.getToken() != null && userDto.getToken() != "") {
-            boolean falg = jwtTokenUtil.isTokenExpired(userDto.getToken());
-
-            if(falg) {
-                String name = jwtTokenUtil.getUsernameFromToken(userDto.getToken());
+            String username = jwtTokenUtil.getUsernameFromToken(userDto.getToken());
+            if(username != null && username != "") {
                 ajaxResponseBody.setMsg("请求成功");
-                ajaxResponseBody.setResult(name);
+                ajaxResponseBody.setResult(username);
                 ajaxResponseBody.setStatus(HttpStatus.SC_OK);
             }
         }
