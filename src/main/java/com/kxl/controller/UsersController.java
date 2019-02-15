@@ -1,33 +1,38 @@
 package com.kxl.controller;
 
-import com.jayway.restassured.internal.http.Status;
 import com.kxl.Dto.UserDto;
 import com.kxl.bo.UserBo;
 import com.kxl.service.UserService;
 import com.kxl.util.AjaxResponseBody;
 import com.kxl.util.JwtTokenUtil;
 import com.kxl.util.MD5;
-import com.sun.tools.internal.ws.wsdl.document.http.HTTPConstants;
-import jdk.nashorn.internal.ir.RuntimeNode;
+import com.kxl.util.RedisUtil;
 import org.apache.http.HttpStatus;
-import org.mapstruct.Mapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
 
+
 /**
- * Created by Administrator on 2019/1/31.
+ * Created by Small Rain on 2019/1/31.
  */
 @RestController
-public class UsersController {
+public class UsersController extends BaseController {
+
+    Logger logger = LoggerFactory.getLogger(UsersController.class);
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RedisUtil redisUtil;
 
     @Value("${jwt.expiration}")
     private Long expiration;
@@ -36,7 +41,12 @@ public class UsersController {
     @ResponseBody
     public AjaxResponseBody login(@RequestBody UserDto userDto){
 
+        logger.info("login:{}",  userDto);
         UserBo user = userService.loadUserByUsername(userDto.getUname());
+
+        if(StringUtils.isNotEmpty(user.getUserName())) {
+            redisUtil.setExpire(user.getUserName(),user.getUserName(),expiration+100000);
+        }
 
         if (StringUtils.isNotEmpty(userDto.getPassword())
                 && MD5.encrytMD5(userDto.getPassword()).equals(user.getPassword())
@@ -53,7 +63,7 @@ public class UsersController {
     @RequestMapping(value = "/selectUserByToken",consumes = "application/json;charset=UTF-8")
     @ResponseBody
     public AjaxResponseBody selectUserByToken(@RequestBody UserDto userDto){
-
+        logger.info("selectUserByToken:{}",  userDto);
         AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
         if(userDto.getToken() != null && userDto.getToken() != "") {
             String username = jwtTokenUtil.getUsernameFromToken(userDto.getToken());
@@ -64,5 +74,18 @@ public class UsersController {
             }
         }
         return ajaxResponseBody;
+    }
+
+    @RequestMapping(value = "/loginOut",consumes = "application/json;charset=UTF-8")
+    @ResponseBody
+    public AjaxResponseBody loginOut(@RequestBody UserDto userDto){
+        logger.info("loginOut:{}",  userDto);
+
+        if(StringUtils.isNotEmpty(userDto.getToken())) {
+            String username = jwtTokenUtil.getUsernameFromToken(userDto.getToken());
+            redisUtil.del(username);
+            jwtTokenUtil.del(userDto.getToken());
+        }
+        return new AjaxResponseBody(HttpStatus.SC_OK,"请求成功！",null,null);
     }
 }

@@ -161,11 +161,11 @@ public class JwtTokenUtil implements Serializable {
      * 验证令牌
      *
      * @param token       令牌
-     * @param userBo 用户
+     * @param username 用户
      * @return 是否有效
      */
-    public Boolean validateToken(String token, UserBo userBo) {
-        String username = getUsernameFromToken(token);
-        return (username.equals(userBo.getUserName()) && !isTokenExpired(token));
+    public Boolean validateToken(String token, String username) {
+        String strUname = getUsernameFromToken(token);
+        return (username.equals(strUname) && !isTokenExpired(token));
     }
 }

@@ -20,7 +20,6 @@ import java.util.*;
  *
  * @Description
  *Redis工具类
- * @author gaoleijie
  * @Date 2018年1月15日
  */
 @Component
@@ -331,6 +330,7 @@ public class RedisUtil {
             for (String key : keys) {
                 result = connection.del(key.getBytes(DEFAULT_CHARSET));
             }
+            logger.info("[redisTemplate redis]清除 缓存  url:{} ", keys);
             return result;
         });
     }
