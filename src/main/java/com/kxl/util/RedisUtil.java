@@ -3,6 +3,7 @@ package com.kxl.util;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.HashOperations;
@@ -24,7 +25,7 @@ import java.util.*;
  */
 @Component
 @Slf4j
-public class RedisUtil {
+public class RedisUtil extends CachingConfigurerSupport {
     /**
      * 默认编码
      */
