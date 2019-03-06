@@ -88,4 +88,13 @@ public class UsersController extends BaseController {
         }
         return new AjaxResponseBody(HttpStatus.SC_OK,"请求成功！",null,null);
     }
+
+    @RequestMapping(value = "/updateUser",consumes = "application/json;charset=UTF-8")
+    @ResponseBody
+    public AjaxResponseBody updateUser(@RequestBody UserDto userDto){
+
+
+
+        return new AjaxResponseBody(HttpStatus.SC_OK,"请求成功",null,null);
+    }
 }

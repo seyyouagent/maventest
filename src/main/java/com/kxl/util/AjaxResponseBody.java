@@ -16,8 +16,8 @@ public class AjaxResponseBody implements Serializable {
 
     public AjaxResponseBody(Integer status, String msg, Object result, String jwtToken) {
         this.status = status;
-        this.msg = msg;
         this.result = result;
+        this.msg = msg;
         this.jwtToken = jwtToken;
     }
 

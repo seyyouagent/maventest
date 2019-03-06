@@ -42,6 +42,6 @@ security:
 #jwt
 jwt:
   secret : mySecret
+  tokenHead : Bearer
   header : Authorization
   expiration : 604800
-  tokenHead : Bearer
