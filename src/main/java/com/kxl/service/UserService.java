@@ -24,4 +24,12 @@ public class UserService {
 
         return users.get(0);
     }
+
+    /**
+     * 修改密码
+     * @param userDto
+     */
+    public void updatePassword(UserDto userDto){
+        userMapper.updateUser(userDto);
+    }
 }

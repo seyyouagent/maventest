@@ -7,6 +7,9 @@ import com.kxl.util.AjaxResponseBody;
 import com.kxl.util.JwtTokenUtil;
 import com.kxl.util.MD5;
 import com.kxl.util.RedisUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
  * Created by Small Rain on 2019/1/31.
  */
 @RestController
+@Slf4j
 public class UsersController extends BaseController {
 
     Logger logger = LoggerFactory.getLogger(UsersController.class);
@@ -37,8 +41,14 @@ public class UsersController extends BaseController {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    @RequestMapping(value = "/login",consumes = "application/json;charset=UTF-8")
+    /**
+     * 登录接口
+     * @param userDto
+     * @return
+     */
+    @PostMapping(value = "/login",consumes = "application/json;charset=UTF-8")
     @ResponseBody
+    @ApiOperation(value = "登录接口", notes = "登录接口")
     public AjaxResponseBody login(@RequestBody UserDto userDto){
 
         logger.info("login:{}",  userDto);
@@ -60,8 +70,9 @@ public class UsersController extends BaseController {
         return new AjaxResponseBody(HttpStatus.SC_BAD_REQUEST,"用户名或密码错误！",null,null);
     }
 
-    @RequestMapping(value = "/selectUserByToken",consumes = "application/json;charset=UTF-8")
+    @PostMapping(value = "/selectUserByToken",consumes = "application/json;charset=UTF-8")
     @ResponseBody
+    @ApiOperation(value = "根据用户查询token", notes = "根据用户查询token")
     public AjaxResponseBody selectUserByToken(@RequestBody UserDto userDto){
         logger.info("selectUserByToken:{}",  userDto);
         AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
@@ -76,8 +87,9 @@ public class UsersController extends BaseController {
         return ajaxResponseBody;
     }
 
-    @RequestMapping(value = "/loginOut",consumes = "application/json;charset=UTF-8")
+    @PostMapping(value = "/loginOut",consumes = "application/json;charset=UTF-8")
     @ResponseBody
+    @ApiOperation(value = "用户退出", notes = "用户退出")
     public AjaxResponseBody loginOut(@RequestBody UserDto userDto){
         logger.info("loginOut:{}",  userDto);
 
@@ -89,11 +101,12 @@ public class UsersController extends BaseController {
         return new AjaxResponseBody(HttpStatus.SC_OK,"请求成功！",null,null);
     }
 
-    @RequestMapping(value = "/updateUser",consumes = "application/json;charset=UTF-8")
+    @PostMapping(value = "/updateUser",consumes = "application/json;charset=UTF-8")
     @ResponseBody
+    @ApiOperation(value = "更新用户", notes = "更新用户")
     public AjaxResponseBody updateUser(@RequestBody UserDto userDto){
 
-
+        userService.updatePassword(userDto);
 
         return new AjaxResponseBody(HttpStatus.SC_OK,"请求成功",null,null);
     }

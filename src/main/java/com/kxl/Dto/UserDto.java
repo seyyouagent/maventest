@@ -1,13 +1,20 @@
 package com.kxl.Dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Created by Administrator on 2019/1/25.
  */
+@ApiModel(value = "用户DTO", description = "登录条件入参")
 public class UserDto {
+    @ApiModelProperty("用户名")
     private String uname;
 
+    @ApiModelProperty("密码")
     private String password;
 
+    @ApiModelProperty("token")
     private String token;
 
     public void setUname(String uname) {

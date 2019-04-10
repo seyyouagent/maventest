@@ -9,11 +9,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Created by Administrator on 2019/1/25.
  */
 @SpringBootApplication
+@EnableWebMvc
 @ComponentScan("com.kxl")
 public class Application {
 

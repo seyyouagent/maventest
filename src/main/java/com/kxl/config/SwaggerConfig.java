@@ -2,7 +2,9 @@ package com.kxl.config;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,27 +18,27 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
+@EnableWebMvc
+@ComponentScan(basePackages = { "com.kxl" })
 public class SwaggerConfig {
 
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
                 .select()
-                //加了ApiOperation注解的类，生成接口文档
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                //包下的类，生成接口文档
                 .apis(RequestHandlerSelectors.basePackage("com.kxl"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("自动化测试平台")
                 .description("接口文档")
+                .contact("tzl")
 //                .termsOfServiceUrl("http://localhost:9080")
-                .version("3.0")
+                .version("1.0")
                 .build();
     }
 }

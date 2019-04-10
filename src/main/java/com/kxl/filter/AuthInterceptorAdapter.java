@@ -29,6 +29,8 @@ public class AuthInterceptorAdapter extends HandlerInterceptorAdapter {
 
     Logger logger = LoggerFactory.getLogger(AuthInterceptorAdapter.class);
 
+    private final static String API = "api";
+
     @Value("${jwt.header}")
     private String tokenHeader;
     @Value("${jwt.tokenHead}")
@@ -47,7 +49,9 @@ public class AuthInterceptorAdapter extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
-
+            if (request.getRequestURL().toString().contains(API)){
+                return true;
+            }
             try {
                 // 返回服务器ip
                 response.setHeader("serviceIp", InetAddress.getLocalHost().getHostAddress());

@@ -29,5 +29,5 @@ public interface UserMapper {
      * @return
      */
     @Update("update sys_user set password=#{password} where user_name=#{uname}")
-    UserBo updateUser(UserDto userDto);
+    void updateUser(UserDto userDto);
 }
